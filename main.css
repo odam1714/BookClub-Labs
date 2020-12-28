@@ -6,7 +6,7 @@
 body {
 	font-family: 'Montserrat', sans-serif;
 	margin: 0 auto;
-	background-color: #bed1a5;
+	background-color: #000; /*bed1a5 */
 }
 
 .infoblock {
