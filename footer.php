@@ -6,6 +6,7 @@
 			<li class="quicklinks"><a href="mybooks.php">My Books</a></li>
 			<li class="quicklinks"><a href="contact.php">Contact</a></li>
 			<li class="quicklinks"><a href="login.php">Login</a></li>
+			<li class="quicklinks"><a href="cats.php">Cats</a></li>
 		</ul>
 	</div>
 	<div id="footerright">

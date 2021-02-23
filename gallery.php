@@ -2,6 +2,13 @@
 	include 'functions.php'; 
 	$images = getImages();
 
+	$randomImage = '';
+  if(isset($_GET['new_pic'])) {
+    $randomImage = 'https://picsum.photos/550/400';
+  } else {
+    $randomImage = '';
+  }
+ 
 	include 'header.php';
 	?>
 	
@@ -14,6 +21,18 @@
 				</div>';
 			} 
 		?>
+	</div>
+
+  <div class="infoblock">
+    <h2>
+    <form method="GET" action="gallery.php">
+      <button name="new_pic" value="1">Random Image</button>
+    </from>
+    </h2>
+    <p>
+      <img src="<?php echo $randomImage; ?>" />
+    </p>
+    
 	</div>
 
 	<?php include 'footer.php';?>
