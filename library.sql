@@ -1,48 +1,36 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Värd: 127.0.0.1:3306
--- Tid vid skapande: 18 dec 2020 kl 18:53
--- Serverversion: 5.7.23
--- PHP-version: 7.2.10
+-- Host: localhost:8889
+-- Generation Time: Feb 23, 2021 at 06:27 PM
+-- Server version: 5.7.25
+-- PHP Version: 7.3.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
--- Databas: `library`
+-- Database: `library1`
 --
-/*CREATE DATABASE IF NOT EXISTS `library` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;*/
-USE `library1`;
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `authors`
+-- Table structure for table `authors`
 --
 
-DROP TABLE IF EXISTS `authors`;
-CREATE TABLE IF NOT EXISTS `authors` (
-  `author_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `authors` (
+  `author_id` int(11) NOT NULL,
   `first_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
   `last_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
   `social_security` int(11) DEFAULT NULL,
   `birthyear` int(11) DEFAULT NULL,
-  `author_page` varchar(255) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
-  PRIMARY KEY (`author_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=633 DEFAULT CHARSET=latin1;
+  `author_page` varchar(255) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumpning av Data i tabell `authors`
+-- Dumping data for table `authors`
 --
 
 INSERT INTO `authors` (`author_id`, `first_name`, `last_name`, `social_security`, `birthyear`, `author_page`) VALUES
@@ -56,92 +44,82 @@ INSERT INTO `authors` (`author_id`, `first_name`, `last_name`, `social_security`
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `books`
+-- Table structure for table `books`
 --
 
-DROP TABLE IF EXISTS `books`;
-CREATE TABLE IF NOT EXISTS `books` (
-  `book_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `books` (
+  `book_id` int(11) NOT NULL,
   `ISBN` int(11) NOT NULL,
   `book_title` varchar(255) NOT NULL,
   `total_pages` int(11) NOT NULL,
   `edition_number` int(11) NOT NULL,
   `year_published` int(11) NOT NULL,
-  `publishing_company_id` int(11) NOT NULL,
-  PRIMARY KEY (`book_id`),
-  KEY `fk_publisher_company` (`publishing_company_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=999 DEFAULT CHARSET=latin1;
+  `publishing_company_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumpning av Data i tabell `books`
+-- Dumping data for table `books`
 --
 
 INSERT INTO `books` (`book_id`, `ISBN`, `book_title`, `total_pages`, `edition_number`, `year_published`, `publishing_company_id`) VALUES
 (123, 963852741, 'Book One', 145, 4, 2008, 1),
-(234, 987654321, 'Book Two', 825, 2, 2009, 1),
 (456, 753869412, 'Book Four', 564, 3, 2017, 1),
 (567, 159263478, 'Book Five', 44, 8, 2001, 2),
 (678, 584267913, 'Book Six', 88, 1, 1972, 2),
 (789, 357689241, 'Book Seven', 413, 1, 1995, 2),
 (890, 654823791, 'Book Eight', 90, 2, 2003, 2),
 (901, 456789123, 'Book Nine', 120, 2, 1956, 2),
-(991, 852963741, 'Book Ten', 720, 2, 1985, 1);
+(991, 852963741, 'Book Ten', 720, 2, 1985, 1),
+(992, 2, 'New Book', 123, 3, 1991, 1);
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `book_author`
+-- Table structure for table `book_author`
 --
 
-DROP TABLE IF EXISTS `book_author`;
-CREATE TABLE IF NOT EXISTS `book_author` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `book_author` (
+  `id` int(11) NOT NULL,
   `author_id` int(11) NOT NULL,
-  `book_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_book_id` (`book_id`),
-  KEY `fk_author_id` (`author_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1007 DEFAULT CHARSET=latin1;
+  `book_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumpning av Data i tabell `book_author`
+-- Dumping data for table `book_author`
 --
 
 INSERT INTO `book_author` (`id`, `author_id`, `book_id`) VALUES
 (101, 147, 123),
-(201, 258, 234),
 (401, 369, 456),
 (501, 478, 567),
 (601, 569, 678),
 (701, 569, 789),
 (801, 632, 890),
 (901, 478, 901),
-(1001, 147, 991);
+(1001, 147, 991),
+(1002, 478, 992);
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `book_status`
+-- Table structure for table `book_status`
 --
 
-DROP TABLE IF EXISTS `book_status`;
-CREATE TABLE IF NOT EXISTS `book_status` (
-  `status_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `book_status` (
+  `status_id` int(11) NOT NULL,
   `book_id` int(11) NOT NULL,
   `shelf_id` int(11) NOT NULL,
   `unique_barcode` varchar(255) NOT NULL,
   `date_added` date NOT NULL,
-  `reserved` tinyint(1) NOT NULL,
-  PRIMARY KEY (`status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+  `reserved` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumpning av Data i tabell `book_status`
+-- Dumping data for table `book_status`
 --
 
 INSERT INTO `book_status` (`status_id`, `book_id`, `shelf_id`, `unique_barcode`, `date_added`, `reserved`) VALUES
 (1, 123, 963852741, '963852741', '2008-04-30', 1),
-(2, 234, 987654321, '987654321', '2009-04-30', 0),
 (3, 345, 741852963, '741852963', '2013-04-23', 0),
 (4, 456, 753869412, '753869412', '2017-04-12', 0),
 (5, 567, 159263478, '159263478', '2001-04-23', 1),
@@ -150,26 +128,24 @@ INSERT INTO `book_status` (`status_id`, `book_id`, `shelf_id`, `unique_barcode`,
 (8, 890, 654823791, '654823791', '2003-06-14', 0),
 (9, 901, 456789123, '456789123', '1993-12-06', 1),
 (10, 991, 852963741, '852963741', '1985-02-24', 0),
-(11, 234, 987654325, '987654365', '2009-05-23', 0),
 (14, 890, 987654327, '987654367', '2020-12-18', 0),
-(15, 890, 987654328, '987654368', '2020-12-18', 0);
+(15, 890, 987654328, '987654368', '2020-12-18', 0),
+(16, 992, 987654329, '987654369', '2021-01-28', 0);
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `gallery`
+-- Table structure for table `gallery`
 --
 
-DROP TABLE IF EXISTS `gallery`;
-CREATE TABLE IF NOT EXISTS `gallery` (
-  `gallery_ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `gallery` (
+  `gallery_ID` int(11) NOT NULL,
   `imgFile` longtext NOT NULL,
-  `galleryOrder` longtext NOT NULL,
-  PRIMARY KEY (`gallery_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+  `galleryOrder` longtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumpning av Data i tabell `gallery`
+-- Dumping data for table `gallery`
 --
 
 INSERT INTO `gallery` (`gallery_ID`, `imgFile`, `galleryOrder`) VALUES
@@ -177,23 +153,22 @@ INSERT INTO `gallery` (`gallery_ID`, `imgFile`, `galleryOrder`) VALUES
 (14, 'gallery.5ed672312a3bb4.30135025.jpg', '3'),
 (15, 'gallery.5ed67234af1705.63273921.jpg', '4'),
 (16, 'gallery.5ed672388cddc2.37170631.jpg', '5'),
-(17, 'gallery.5ed6723c104f48.79515564.jpg', '6');
+(17, 'gallery.5ed6723c104f48.79515564.jpg', '6'),
+(18, 'gallery.600eaebb4bb591.36113012.jpg', '6');
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `publisher`
+-- Table structure for table `publisher`
 --
 
-DROP TABLE IF EXISTS `publisher`;
-CREATE TABLE IF NOT EXISTS `publisher` (
-  `publisher_id` int(11) NOT NULL AUTO_INCREMENT,
-  `publisher_name` varchar(64) NOT NULL,
-  PRIMARY KEY (`publisher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+CREATE TABLE `publisher` (
+  `publisher_id` int(11) NOT NULL,
+  `publisher_name` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumpning av Data i tabell `publisher`
+-- Dumping data for table `publisher`
 --
 
 INSERT INTO `publisher` (`publisher_id`, `publisher_name`) VALUES
@@ -203,21 +178,19 @@ INSERT INTO `publisher` (`publisher_id`, `publisher_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `users`
+-- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `user_ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `user_ID` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
   `hashedpwd` varchar(255) NOT NULL,
-  `role` int(11) NOT NULL,
-  PRIMARY KEY (`user_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+  `role` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumpning av Data i tabell `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_ID`, `username`, `password`, `hashedpwd`, `role`) VALUES
@@ -226,26 +199,24 @@ INSERT INTO `users` (`user_ID`, `username`, `password`, `hashedpwd`, `role`) VAL
 (3, 'test', 'test', 'a6e1acdd0cc7e00d02b90bccb2e21892289d1e93f622b8760cb0e076def1f42b', 3),
 (4, 'user1', 'passwordtest', 'f49d4a0df7ef03d9d32c8843a897200d9a71d988afc15be7e8b9c8e2b8908c5c', 3),
 (6, 'user2', 'user2', '0b4178850556728e781ccaf78df4c9848a88c6066eb8fbebce8d7f345937d4c5', 3),
-(7, 'user3', 'user3', '95b06c08b6ea430c731783f2f70a7001c3e26ba1c99b0291c371871ffc459cd9', 3);
+(7, 'user3', 'user3', '95b06c08b6ea430c731783f2f70a7001c3e26ba1c99b0291c371871ffc459cd9', 3),
+(8, 'usernew', NULL, '37fca346aefb4e2e7ccecd1b7fec9a9fcb7bdc60fa87386ae48eb3f297e42ddd', 3),
+(9, 'usernew1', NULL, 'b0f784fe99f37c57188d100f79bffa0e877f38c8ad50baf7e474b7596a02b5bf', 3);
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `user_reserved_book`
+-- Table structure for table `user_reserved_book`
 --
 
-DROP TABLE IF EXISTS `user_reserved_book`;
-CREATE TABLE IF NOT EXISTS `user_reserved_book` (
-  `reserved_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user_reserved_book` (
+  `reserved_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `status_id` int(11) NOT NULL,
-  PRIMARY KEY (`reserved_id`),
-  KEY `fk_user_reserved` (`user_id`),
-  KEY `fk_book_status` (`status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+  `status_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumpning av Data i tabell `user_reserved_book`
+-- Dumping data for table `user_reserved_book`
 --
 
 INSERT INTO `user_reserved_book` (`reserved_id`, `user_id`, `status_id`) VALUES
@@ -254,30 +225,134 @@ INSERT INTO `user_reserved_book` (`reserved_id`, `user_id`, `status_id`) VALUES
 (11, 4, 7);
 
 --
--- Restriktioner för dumpade tabeller
+-- Indexes for dumped tables
 --
 
 --
--- Restriktioner för tabell `books`
+-- Indexes for table `authors`
+--
+ALTER TABLE `authors`
+  ADD PRIMARY KEY (`author_id`);
+
+--
+-- Indexes for table `books`
+--
+ALTER TABLE `books`
+  ADD PRIMARY KEY (`book_id`),
+  ADD KEY `fk_publisher_company` (`publishing_company_id`);
+
+--
+-- Indexes for table `book_author`
+--
+ALTER TABLE `book_author`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_book_id` (`book_id`),
+  ADD KEY `fk_author_id` (`author_id`) USING BTREE;
+
+--
+-- Indexes for table `book_status`
+--
+ALTER TABLE `book_status`
+  ADD PRIMARY KEY (`status_id`);
+
+--
+-- Indexes for table `gallery`
+--
+ALTER TABLE `gallery`
+  ADD PRIMARY KEY (`gallery_ID`);
+
+--
+-- Indexes for table `publisher`
+--
+ALTER TABLE `publisher`
+  ADD PRIMARY KEY (`publisher_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_ID`);
+
+--
+-- Indexes for table `user_reserved_book`
+--
+ALTER TABLE `user_reserved_book`
+  ADD PRIMARY KEY (`reserved_id`),
+  ADD KEY `fk_user_reserved` (`user_id`),
+  ADD KEY `fk_book_status` (`status_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `authors`
+--
+ALTER TABLE `authors`
+  MODIFY `author_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=633;
+
+--
+-- AUTO_INCREMENT for table `books`
+--
+ALTER TABLE `books`
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=993;
+
+--
+-- AUTO_INCREMENT for table `book_author`
+--
+ALTER TABLE `book_author`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1003;
+
+--
+-- AUTO_INCREMENT for table `book_status`
+--
+ALTER TABLE `book_status`
+  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `gallery`
+--
+ALTER TABLE `gallery`
+  MODIFY `gallery_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `publisher`
+--
+ALTER TABLE `publisher`
+  MODIFY `publisher_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `user_reserved_book`
+--
+ALTER TABLE `user_reserved_book`
+  MODIFY `reserved_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `books`
 --
 ALTER TABLE `books`
   ADD CONSTRAINT `fk_publisher_company` FOREIGN KEY (`publishing_company_id`) REFERENCES `publisher` (`publisher_id`);
 
 --
--- Restriktioner för tabell `book_author`
+-- Constraints for table `book_author`
 --
 ALTER TABLE `book_author`
   ADD CONSTRAINT `fk_author_od` FOREIGN KEY (`author_id`) REFERENCES `authors` (`author_id`),
   ADD CONSTRAINT `fk_book_id` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`);
 
 --
--- Restriktioner för tabell `user_reserved_book`
+-- Constraints for table `user_reserved_book`
 --
 ALTER TABLE `user_reserved_book`
   ADD CONSTRAINT `fk_book_status` FOREIGN KEY (`status_id`) REFERENCES `book_status` (`status_id`),
   ADD CONSTRAINT `fk_user_reserved` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_ID`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
